@@ -1,0 +1,55 @@
+@startuml
+title Online Shopping Platform ER Diagram
+
+entity Musteri {
+  +id : serial <<PK>>
+  ad : varchar
+  soyad : varchar
+  email : varchar
+  sehir : varchar
+  kayit_tarihi : date
+}
+
+entity Kategori {
+  +id : serial <<PK>>
+  ad : varchar
+}
+
+entity Satici {
+  +id : serial <<PK>>
+  ad : varchar
+  adres : varchar
+}
+
+entity Urun {
+  +id : serial <<PK>>
+  ad : varchar
+  fiyat : numeric(10,2)
+  stok : integer
+  kategori_id : integer <<FK>>
+  satici_id : integer <<FK>>
+}
+
+entity Siparis {
+  +id : serial <<PK>>
+  musteri_id : integer <<FK>>
+  tarih : date
+  toplam_tutar : numeric(12,2)
+  odeme_turu : varchar
+}
+
+entity Siparis_Detay {
+  +id : serial <<PK>>
+  siparis_id : integer <<FK>>
+  urun_id : integer <<FK>>
+  adet : integer
+  fiyat : numeric(10,2)
+}
+
+Musteri ||--o{ Siparis : "verir"
+Siparis ||--o{ Siparis_Detay : "icerir"
+Urun }o--|| Kategori : "ait"
+Urun }o--|| Satici : "sahip"
+Urun ||--o{ Siparis_Detay : "icerir"
+
+@enduml
